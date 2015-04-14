@@ -1,5 +1,5 @@
 {
-    "name": "garetjax/phpbrowscap",
+    "name": "sb15/phpbrowscap",
     "type": "library",
     "description": "Standalone replacement for php's native get_browser() function",
     "keywords": ["get_browser", "browser", "capabilities", "user agent"],

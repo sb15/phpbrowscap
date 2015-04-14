@@ -242,7 +242,12 @@ class Browscap
 
         $this->cacheDir .= DIRECTORY_SEPARATOR;
     }
-    
+
+    public function setDoAutoUpdate($doAutoUpdate)
+    {
+        $this->doAutoUpdate = $doAutoUpdate;
+    }
+
     public function getSourceVersion()
     {
       return $this->_source_version;
