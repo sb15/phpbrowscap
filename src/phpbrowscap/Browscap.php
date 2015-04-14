@@ -108,6 +108,7 @@ class Browscap
     public $updateInterval = 432000;  // 5 days
     public $errorInterval = 7200;  // 2 hours
     public $doAutoUpdate = true;
+    public $doUpdateCache = true;
     public $updateMethod = null;
 
     /**
@@ -243,9 +244,9 @@ class Browscap
         $this->cacheDir .= DIRECTORY_SEPARATOR;
     }
 
-    public function setDoAutoUpdate($doAutoUpdate)
+    public function setDoUpdateCache($doUpdateCache)
     {
-        $this->doAutoUpdate = $doAutoUpdate;
+        $this->doUpdateCache = $doUpdateCache;
     }
 
     public function getSourceVersion()
@@ -271,6 +272,10 @@ class Browscap
             $cache_file = $this->cacheDir . $this->cacheFilename;
             $ini_file = $this->cacheDir . $this->iniFilename;
 
+            if (!$this->doUpdateCache && (!file_exists($cache_file) || !file_exists($ini_file))) {
+                return array();
+            }
+
             // Set the interval only if needed
             if ($this->doAutoUpdate && file_exists($ini_file)) {
                 $interval = time() - filemtime($ini_file);
@@ -278,7 +283,7 @@ class Browscap
                 $interval = 0;
             }
             
-            $update_cache = true;
+            $update_cache = $this->doUpdateCache;
             
             if (file_exists($cache_file) && file_exists($ini_file) && ($interval <= $this->updateInterval))
             {
@@ -287,6 +292,8 @@ class Browscap
                 $update_cache = false;
               }
             }
+
+
             
             if ($update_cache) {
                 try {
